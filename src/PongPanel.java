@@ -148,6 +148,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// will the ball go off the left side?
 			if (nextBallLeft < playerOneRight) {
+				ballDeltaX = 3;
 				// is it going to miss the paddle?
 				if (nextBallTop > playerOneBottom || nextBallBottom < playerOneTop) {
 
@@ -169,6 +170,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// will the ball go off the right side?
 			if (nextBallRight > playerTwoLeft) {
+				ballDeltaX = -3;
 				// is it going to miss the paddle?
 				if (nextBallTop > playerTwoBottom || nextBallBottom < playerTwoTop) {
 
