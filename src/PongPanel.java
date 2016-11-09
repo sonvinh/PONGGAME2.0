@@ -16,7 +16,6 @@
  *  Version: 0.5
  */
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -63,7 +62,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private int playerOneHeight = 60;
 
 	/** Player 2's paddle: position and size */
-	private int playerTwoX = 465;
+	private int playerTwoX = 483;
 	private int playerTwoY = 250;
 	private int playerTwoWidth = 10;
 	private int playerTwoHeight = 60;
@@ -102,21 +101,21 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// move player 1
 			// Move up if after moving, paddle is not outside the screen
-			if (upPressed && playerOneY - paddleSpeed > 0) {
+			if (wPressed && playerOneY - paddleSpeed > 0) {
 				playerOneY -= paddleSpeed;
 			}
 			// Move down if after moving paddle is not outside the screen
-			if (downPressed && playerOneY + playerOneHeight + paddleSpeed < getHeight()) {
+			if (sPressed && playerOneY + playerOneHeight + paddleSpeed < getHeight()) {
 				playerOneY += paddleSpeed;
 			}
 
 			// move player 2
 			// Move up if after moving paddle is not outside the screen
-			if (wPressed && playerTwoY - paddleSpeed > 0) {
+			if (upPressed && playerTwoY - paddleSpeed > 0) {
 				playerTwoY -= paddleSpeed;
 			}
 			// Move down if after moving paddle is not outside the screen
-			if (sPressed && playerTwoY + playerTwoHeight + paddleSpeed < getHeight()) {
+			if (downPressed && playerTwoY + playerTwoHeight + paddleSpeed < getHeight()) {
 				playerTwoY += paddleSpeed;
 			}
 
@@ -148,29 +147,29 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// will the ball go off the left side?
 			if (nextBallLeft < playerOneRight) {
-				ballDeltaX = 3;
+				ballDeltaY = -3;
 				// is it going to miss the paddle?
 				if (nextBallTop > playerOneBottom || nextBallBottom < playerOneTop) {
 
-					playerOneScore++;
+					playerTwoScore++;
 
 					// Player 2 Win, restart the game
 					if (playerTwoScore == 3) {
 						playing = false;
 						gameOver = true;
 					}
-					ballX = 200;
-					ballY = 200;
+					ballX = 250;
+					ballY = 250;
 				} else {
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
-					ballDeltaX *= 1;
+					ballDeltaX *= -1;
 				}
 			}
 
 			// will the ball go off the right side?
 			if (nextBallRight > playerTwoLeft) {
-				ballDeltaX = -3;
+				ballDeltaX = 3;
 				// is it going to miss the paddle?
 				if (nextBallTop > playerTwoBottom || nextBallBottom < playerTwoTop) {
 
@@ -181,13 +180,13 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 						playing = false;
 						gameOver = true;
 					}
-					ballX = 200;
-					ballY = 200;
+					ballX = 250;
+					ballY = 250;
 				} else {
 
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
-					ballDeltaX *= 1;
+					ballDeltaX *= -1;
 				}
 			}
 
@@ -211,10 +210,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// Draw game title and start message
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+			g.setColor(Color.WHITE);
 			g.drawString("Pong Game", 130, 100);
 
 			// FIXME Wellcome message below show smaller than game title
-			g.drawString("Press 'P' to play.", 175, 400);
+			g.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
+			g.drawString("Press 'P' to play.", 120, 350);
 		} else if (playing) {
 
 			/* Game is playing */
@@ -224,11 +225,13 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			int playerTwoLeft = playerTwoX;
 
 			// draw dashed line down center
+			g.setColor(Color.GREEN);
 			for (int lineY = 0; lineY < getHeight(); lineY += 50) {
 				g.drawLine(250, lineY, 250, lineY + 25);
 			}
 
 			// draw "goal lines" on each side
+			g.setColor(Color.RED);
 			g.drawLine(playerOneRight, 0, playerOneRight, getHeight());
 			g.drawLine(playerTwoLeft, 0, playerTwoLeft, getHeight());
 
@@ -237,7 +240,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
 			g.drawString(String.valueOf(playerOneScore), 100, 100); // Player 1
 																	// score
-			g.drawString(String.valueOf(playerOneScore), 365, 100); // Player 2
+			g.drawString(String.valueOf(playerTwoScore), 352, 100); // Player 2
 																	// score
 
 			// draw the ball
@@ -259,6 +262,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// Draw the winner name
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+			g.setColor(Color.WHITE);
 			if (playerOneScore > playerTwoScore) {
 				g.drawString("Player 1 Wins!", 125, 200);
 			} else {
@@ -266,8 +270,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 			// Draw Restart message
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+			g.setColor(Color.WHITE);
+			g.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
 			// TODO Draw a restart message
+			g.drawString("Press 'Space' to restart", 125, 350);
 		}
 	}
 
@@ -276,7 +282,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 	public void keyPressed(KeyEvent e) {
 		if (showTitleScreen) {
-			if (e.getKeyCode()==KeyEvent.VK_P){
+			if (e.getKeyCode() == KeyEvent.VK_P) {
 				showTitleScreen = false;
 				playing = true;
 			}
@@ -297,8 +303,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			playerTwoY = 250;
 			ballX = 250;
 			ballY = 250;
-			playerOneScore=0;
-			playerTwoScore=0;
+			playerOneScore = 0;
+			playerTwoScore = 0;
 		}
 	}
 
