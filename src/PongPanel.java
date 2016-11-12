@@ -215,14 +215,15 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// background
 			g.drawImage(background2.getImage(),0,0,getWidth(),getHeight(),null);
 			// Draw game title and start message
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+			g.setFont(new Font(Font.DIALOG_INPUT, Font.CENTER_BASELINE, 36));
 			g.setColor(Color.green);
-			g.drawString("Pong Game", 130, 100);
+			g.drawString("Welcome to Pong Game", 30, 100);
+			g.drawString("Let's play!", 130, 200);
 			
 
 			// FIXME Welcome message below show smaller than game title
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
-			g.drawString("Press 'P' to play.", 120, 350);
+			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 36));
+			g.drawString("Press 'P' to play.", 80, 300);
 		} else if (playing) {
 
 			/* Game is playing */
@@ -267,27 +268,31 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// Draw scores
 			// TODO Set Blue color
 			g.setColor(Color.white);
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-			g.drawString(String.valueOf(playerOneScore), 100, 100);
-			g.drawString(String.valueOf(playerTwoScore), 365, 100);
+			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 36));
+			g.drawString(String.valueOf(playerOneScore), 100, 120);
+			g.drawString(String.valueOf(playerTwoScore), 365, 120);
 			
 
 			// Draw the winner name
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 36));
 			g.setColor(Color.green);
 			
 			if (playerOneScore > playerTwoScore) {
-				g.drawString("Player 1 Wins!", 125, 200);
+				g.drawString("Congratulations!", 90, 200);
+				g.drawString("Player 1 Wins!", 125, 280);
+				
+				
 			} else {
-				g.drawString("Player 2 Wins!", 125, 200);
+				g.drawString("Congratulations!", 90, 200);
+				g.drawString("Player 2 Wins!", 125, 280);
 			}
 			
 
 			// Draw Restart message
-			g.setColor(Color.BLUE);
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
+			g.setColor(Color.GREEN);
+			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 30));
 			// TODO Draw a restart message
-			g.drawString("Press 'Space' to restart", 125, 350);
+			g.drawString("Press 'Space' to restart", 45, 360);
 		}
 		
 
