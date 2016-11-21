@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -78,15 +79,20 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	/** Player score, show on upper left and right. */
 	private int playerOneScore;
 	private int playerTwoScore;
+	private Sound Startgame,Overgame;
 
 	/** Construct a PongPanel. */
 	public PongPanel() {
+		Startgame = new Sound(new File("Sound/StartGame.wav"));
+		Overgame = new Sound(new File("Sound/GameOver.wav"));
 		setBackground(backgroundColor);
 		
 		// listen to key presses
 		setFocusable(true);
 		addKeyListener(this);
 
+		Startgame.play();
+		Startgame.playMusic();
 		// call step() 60 fps
 		Timer timer = new Timer(1000 / 60, this);
 		timer.start();
@@ -101,6 +107,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	public void step() {
 
 		if (playing) {
+			Startgame.stop();
 
 			/* Playing mode */
 
@@ -160,6 +167,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 					// Player 2 Win, restart the game
 					if (playerTwoScore == 3) {
+						Overgame.play();
+						Overgame.playMusic();
 						playing = false;
 						gameOver = true;
 					}
@@ -182,6 +191,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 					// Player 1 Win, restart the game
 					if (playerOneScore == 3) {
+						Overgame.play();
+						Overgame.playMusic();
 						playing = false;
 						gameOver = true;
 					}
@@ -318,6 +329,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				sPressed = true;
 			}
 		} else if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
+			Startgame.play();
+			Startgame.playMusic();
+			Overgame.stop();
 			gameOver = false;
 			showTitleScreen = true;
 			playerOneY = 250;
