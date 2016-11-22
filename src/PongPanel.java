@@ -84,7 +84,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		Startgame = new Sound(new File("Sound/StartGame.wav"));
-		Overgame = new Sound(new File("Sound/GameOver.wav"));
+		Overgame = new Sound(new File("Sound/OverGame.wav"));
 		setBackground(backgroundColor);
 		
 		// listen to key presses
