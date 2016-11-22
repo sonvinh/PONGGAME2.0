@@ -46,7 +46,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon background1 = new ImageIcon("Background/milky-way-galaxy.jpg");
 	ImageIcon background2 = new ImageIcon("Background/Beautiful-Galaxy-Space-Wallpaper-Background.jpg");
 	
-
+	/** Paddle.*/
+	ImageIcon paddle1= new ImageIcon("Paddle/green.png");
+	ImageIcon paddle2= new ImageIcon("Paddle/pink.png");
+	
 	/** State on the control keys. */
 	private boolean upPressed;
 	private boolean downPressed;
@@ -274,8 +277,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			
 
 			// draw the paddles
-			g.fillRect(playerOneX, playerOneY, playerOneWidth, playerOneHeight);
-			g.fillRect(playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight);
+			g.drawImage(paddle1.getImage(),playerOneX, playerOneY, playerOneWidth, playerOneHeight, null);
+			g.drawImage(paddle2.getImage(),playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight,null);
+			
 		} else if (gameOver) {
 
 			/* Show End game screen with winner name and score */
