@@ -49,6 +49,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon background1 = new ImageIcon("Background/milky-way-galaxy.jpg");
 	ImageIcon background2 = new ImageIcon("Background/Beautiful-Galaxy-Space-Wallpaper-Background.jpg");
 	
+	/** Paddle.*/
+	ImageIcon paddle1= new ImageIcon("Paddle/green.png");
+	ImageIcon paddle2= new ImageIcon("Paddle/pink.png");
+	
 	/** State on the control keys. */
 	private boolean upPressed;
 	private boolean downPressed;
@@ -183,16 +187,59 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			float playerTwoLeft = playerTwoX;
 			float playerTwoTop = playerTwoY;
 			float playerTwoBottom = playerTwoY + playerTwoHeight;
+			
+			
 
 			// ball bounces off top and bottom of screen
 			if (nextBallTop < 0 || nextBallBottom > getHeight()) {
 				ballDeltaY *= -1;
 				SoundPG.play("Sound/paddleSound.wav");
 			}
+			// different direction when the ball hit different position in the paddle
+						if(ballDeltaY ==3){
+							if (nextBallLeft <= playerOneTop +15 || nextBallLeft >= playerOneBottom -15){
+								ballDeltaY = 4;
+							}else if(nextBallLeft < playerOneTop +30){
+							    ballDeltaY = 2;
+							}else if (nextBallLeft < playerOneTop+45){
+								ballDeltaY = 3;
+							
+							}
+							
+						}else if (ballDeltaY ==-3){
+							if (nextBallLeft <= playerOneTop +15 || nextBallLeft >= playerOneBottom -15){
+								ballDeltaY = -4;
+							}else if(nextBallLeft < playerOneTop +30){
+							    ballDeltaY = -2;
+							}else if (nextBallLeft < playerOneTop+45){
+								ballDeltaY = -3;
+							
+							}
+							
+						}
+						if(ballDeltaX ==3){
+							if (nextBallRight <= playerOneTop +15 || nextBallRight >= playerOneBottom -15){
+								ballDeltaY = 4;
+							}else if(nextBallRight < playerOneTop +30){
+							    ballDeltaY = 2;
+							}else if (nextBallRight < playerOneTop+45){
+								ballDeltaY = 3;
+							
+							}
+						}else if (ballDeltaX==-3){
+							if (nextBallRight <= playerOneTop +15 || nextBallRight >= playerOneBottom -15){
+								ballDeltaY = -4;
+							}else if(nextBallRight < playerOneTop +30){
+							    ballDeltaY = -2;
+							}else if (nextBallRight < playerOneTop+45){
+								ballDeltaY = -3;
+							
+							}
+						}
 
 			// will the ball go off the left side?
 			if (nextBallLeft < playerOneRight) {
-				ballDeltaY = -3;
+				//ballDeltaY = -3;
 				// is it going to miss the paddle?
 				if (nextBallTop > playerOneBottom || nextBallBottom < playerOneTop) {
 
@@ -218,7 +265,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// will the ball go off the right side?
 			if (nextBallRight > playerTwoLeft) {
-				ballDeltaX = 3;
 				
 				// is it going to miss the paddle?
 				if (nextBallTop > playerTwoBottom || nextBallBottom < playerTwoTop) {
@@ -251,6 +297,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 		// stuff has moved, tell this JPanel to repaint itself
 		repaint();
+		
 	}
 
 	/** Paint the game screen. */
@@ -330,9 +377,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			}
 			
 			// draw the paddles
-			g.setColor(Color.RED);
-			g.fillRect(playerOneX, playerOneY, playerOneWidth, playerOneHeight);
-			g.fillRect(playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight);
+			g.drawImage(paddle1.getImage(),playerOneX, playerOneY, playerOneWidth, playerOneHeight, null);
+			g.drawImage(paddle2.getImage(),playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight,null);
 			
 		} else if (gameOver) {
 			
@@ -425,6 +471,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			wPressed = false;
 		} else if (e.getKeyCode() == KeyEvent.VK_S) {
 			sPressed = false;
+		}else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
 		}
 	}
 
