@@ -119,7 +119,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				SecondWindow w = new SecondWindow();
 				w.setLocationRelativeTo(PongPanel.this);
 				w.setVisible(true);
-				t = w.ballNumber;
+				if (w.dialogResult == MyDialogResult.YES) {
+					t = w.ballNumber;
+				} else {
+					t=0;
+				}
 			}
 		});
 		
@@ -375,6 +379,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			}else if(t==5){
 				g.drawImage(icoball5.getImage(),ballX,ballY,diameter,diameter,null);	
 			}
+
 			
 			// draw the paddles
 			g.drawImage(paddle1.getImage(),playerOneX, playerOneY, playerOneWidth, playerOneHeight, null);

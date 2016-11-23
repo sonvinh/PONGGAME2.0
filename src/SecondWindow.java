@@ -13,16 +13,15 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 public class SecondWindow extends JDialog {
 	public int ballNumber;
 	public MyDialogResult dialogResult;
 	public int result;
-	//PanelSetting pan = new PanelSetting();
 	
-
-	
-	
+	private JTextField txtPlay1;
+	private JTextField txtPlay2;
 	
 	public SecondWindow() {
 		setPreferredSize(new Dimension(400, 400));
@@ -85,7 +84,7 @@ public class SecondWindow extends JDialog {
 		btnImage5.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		btnImage5.setBorderPainted(false);
 		btnImage1.setFocusable(false);
-
+		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			
