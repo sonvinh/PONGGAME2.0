@@ -25,7 +25,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -42,11 +44,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private boolean gameOver;
 
 	/** Background. */
+	
 	private Color backgroundColor = Color.BLACK;
 	ImageIcon background1 = new ImageIcon("Background/milky-way-galaxy.jpg");
 	ImageIcon background2 = new ImageIcon("Background/Beautiful-Galaxy-Space-Wallpaper-Background.jpg");
 	
-
 	/** State on the control keys. */
 	private boolean upPressed;
 	private boolean downPressed;
@@ -56,7 +58,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	/** The ball: position, diameter */
 	private int ballX = 200;
 	private int ballY = 200;
-	private int diameter = 20;
+	private int diameter = 30;
 	private int ballDeltaX = -1;
 	private int ballDeltaY = 3;
 
@@ -80,12 +82,42 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private int playerOneScore;
 	private int playerTwoScore;
 	private Sound Startgame,Overgame;
-
+	
+	// Button Setting
+	ImageIcon icoSetting = new ImageIcon("ImagesBall/setting.png");
+	JButton btnSetting = new JButton(icoSetting);
+	
+	// Image Ball
+	ImageIcon icoball1 = new ImageIcon("ImagesBall/ball1.png");
+	ImageIcon icoball2 = new ImageIcon("ImagesBall/ball2.png");
+	ImageIcon icoball3 = new ImageIcon("ImagesBall/ball3.png");
+	ImageIcon icoball4 = new ImageIcon("ImagesBall/ball4.png");
+	ImageIcon icoball5 = new ImageIcon("ImagesBall/ball5.png");
+	
+	private SecondWindow sndWindow = new SecondWindow();
+	int t =  sndWindow.ballNumber =0;
+	
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		Startgame = new Sound(new File("Sound/StartGame.wav"));
 		Overgame = new Sound(new File("Sound/OverGame.wav"));
+		
+		SecondWindow w = new SecondWindow();
 		setBackground(backgroundColor);
+		
+		add(btnSetting);
+		
+		btnSetting.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SecondWindow w = new SecondWindow();
+				w.setLocationRelativeTo(PongPanel.this);
+				w.setVisible(true);
+				t = w.ballNumber;
+			}
+		});
 		
 		// listen to key presses
 		setFocusable(true);
@@ -187,6 +219,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// will the ball go off the right side?
 			if (nextBallRight > playerTwoLeft) {
 				ballDeltaX = 3;
+				
 				// is it going to miss the paddle?
 				if (nextBallTop > playerTwoBottom || nextBallBottom < playerTwoTop) {
 
@@ -228,27 +261,40 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		if (showTitleScreen) {
 
 			/* Show welcome screen */
+			
 			// background
 			g.drawImage(background2.getImage(),0,0,getWidth(),getHeight(),null);
+			
 			// Draw game title and start message
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.CENTER_BASELINE, 36));
 			g.setColor(Color.green);
 			g.drawString("Welcome to Pong Game", 30, 100);
 			g.drawString("Let's play!", 130, 200);
 			
-
+			// Button Setting
+			btnSetting.setBounds(450, 0, 50, 50);
+			btnSetting.setContentAreaFilled(false);
+			btnSetting.setFocusable(false);
+			btnSetting.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			btnSetting.setBorderPainted(false);
+			
 			// FIXME Welcome message below show smaller than game title
 			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 36));
 			g.drawString("Press 'P' to play.", 80, 300);
 		} else if (playing) {
-
+			
+			// Button Setting
+			btnSetting.setVisible(false);			
+			
 			/* Game is playing */
 			
 			// set the coordinate limit
 			int playerOneRight = playerOneX + playerOneWidth;
 			int playerTwoLeft = playerTwoX;
+			
 			// background
 			g.drawImage(background1.getImage(),0,0,getWidth(),getHeight(),null);
+			
 			// draw dashed line down center
 			g.setColor(Color.GREEN);
 			for (int lineY = 0; lineY < getHeight(); lineY += 50) {
@@ -268,19 +314,33 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString(String.valueOf(playerTwoScore), 352, 100); // Player 2
 																	// score
 
-			// draw the ball
-			g.setColor(Color.RED);
-			g.fillOval(ballX, ballY, diameter, diameter);
+			// draw the ball1
+			if(t==0){
+				g.drawImage(icoball1.getImage(),ballX,ballY,diameter,diameter,null);
+			}else if(t==1){
+				g.drawImage(icoball1.getImage(),ballX,ballY,diameter,diameter,null);
+			}else if(t==2){
+				g.drawImage(icoball2.getImage(),ballX,ballY,diameter,diameter,null);	
+			}else if(t==3){
+				g.drawImage(icoball3.getImage(),ballX,ballY,diameter,diameter,null);	
+			}else if(t==4){
+				g.drawImage(icoball4.getImage(),ballX,ballY,diameter,diameter,null);	
+			}else if(t==5){
+				g.drawImage(icoball5.getImage(),ballX,ballY,diameter,diameter,null);	
+			}
 			
-
 			// draw the paddles
+			g.setColor(Color.RED);
 			g.fillRect(playerOneX, playerOneY, playerOneWidth, playerOneHeight);
 			g.fillRect(playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight);
+			
 		} else if (gameOver) {
-
+			
 			/* Show End game screen with winner name and score */
+			
 			// background
 			g.drawImage(background2.getImage(),0,0,getWidth(),getHeight(),null);
+			
 			// Draw scores
 			// TODO Set Blue color
 			g.setColor(Color.white);
@@ -314,6 +374,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+	private void PanelSetting() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void keyTyped(KeyEvent e) {
 	}
 
@@ -334,6 +399,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				sPressed = true;
 			}
 		} else if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
+			// Button Setting
+			btnSetting.setVisible(true);
 			Startgame.play();
 			Startgame.playMusic();
 			Overgame.stop();
@@ -345,6 +412,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			ballY = 250;
 			playerOneScore = 0;
 			playerTwoScore = 0;
+			
 		}
 	}
 
