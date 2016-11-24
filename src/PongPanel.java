@@ -58,6 +58,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private boolean downPressed;
 	private boolean wPressed;
 	private boolean sPressed;
+	
 
 	/** The ball: position, diameter */
 	private int ballX = 200;
@@ -97,7 +98,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon icoball3 = new ImageIcon("ImagesBall/ball3.png");
 	ImageIcon icoball4 = new ImageIcon("ImagesBall/ball4.png");
 	ImageIcon icoball5 = new ImageIcon("ImagesBall/ball5.png");
-	
+	ImageIcon icoplay = new ImageIcon("ImagesBall/icon play.jpg");
+	private JButton btnplay = new JButton(icoplay);
 	private SecondWindow sndWindow = new SecondWindow();
 	int t =  sndWindow.ballNumber =0;
 	
@@ -108,8 +110,18 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		
 		SecondWindow w = new SecondWindow();
 		setBackground(backgroundColor);
-		
+		add(btnplay);
 		add(btnSetting);
+		
+		btnplay.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				playing = true ;
+				showTitleScreen = false;
+			}
+		});
 		
 		btnSetting.addActionListener(new ActionListener() {
 			
@@ -317,10 +329,14 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			g.drawImage(background2.getImage(),0,0,getWidth(),getHeight(),null);
 			
 			// Draw game title and start message
+			
+			btnplay.setBounds(160, 180, 165, 70);
+			btnplay.setContentAreaFilled(true);
+			btnplay.setBorderPainted(false);
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.CENTER_BASELINE, 36));
 			g.setColor(Color.black);
-			g.drawString("Welcome to Pong Game", 30, 100);
-			g.drawString("Let's play!", 130, 200);
+			g.drawString("Welcome to Pong Game", 30, 150);
+			//g.drawString("Let's play!", 130, 200);
 			
 			// Button Setting
 			btnSetting.setBounds(450, 0, 50, 50);
@@ -335,7 +351,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		} else if (playing) {
 			
 			// Button Setting
-			btnSetting.setVisible(false);			
+			btnSetting.setVisible(false);
+			btnplay.setVisible(false);
 			
 			/* Game is playing */
 			
@@ -425,6 +442,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+
 	private void PanelSetting() {
 		// TODO Auto-generated method stub
 		
@@ -452,6 +470,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		} else if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			// Button Setting
 			btnSetting.setVisible(true);
+			btnplay.setVisible(true);
 			Startgame.play();
 			Startgame.playMusic();
 			Overgame.stop();
