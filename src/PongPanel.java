@@ -46,8 +46,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	/** Background. */
 	
 	private Color backgroundColor = Color.BLACK;
-	ImageIcon background1 = new ImageIcon("Background/milky-way-galaxy.jpg");
-	ImageIcon background2 = new ImageIcon("Background/Beautiful-Galaxy-Space-Wallpaper-Background.jpg");
+	ImageIcon background1 = new ImageIcon("Background/blue sky.jpg");
+	ImageIcon background2 = new ImageIcon("Background/7024335-beautiful-sky-pictures-25030.jpg");
 	
 	/** Paddle.*/
 	ImageIcon paddle1= new ImageIcon("Paddle/green.png");
@@ -318,7 +318,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			
 			// Draw game title and start message
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.CENTER_BASELINE, 36));
-			g.setColor(Color.green);
+			g.setColor(Color.black);
 			g.drawString("Welcome to Pong Game", 30, 100);
 			g.drawString("Let's play!", 130, 200);
 			
@@ -402,7 +402,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// Draw the winner name
 			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 36));
-			g.setColor(Color.green);
+			g.setColor(Color.black);
 			
 			if (playerOneScore > playerTwoScore) {
 				g.drawString("Congratulations!", 90, 200);
@@ -416,7 +416,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			
 
 			// Draw Restart message
-			g.setColor(Color.GREEN);
+			g.setColor(Color.black);
 			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 30));
 			// TODO Draw a restart message
 			g.drawString("Press 'Space' to restart", 45, 360);
