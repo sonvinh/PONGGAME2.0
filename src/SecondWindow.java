@@ -15,13 +15,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import com.sun.scenario.Settings;
+
 public class SecondWindow extends JDialog {
 	public int ballNumber;
 	public MyDialogResult dialogResult;
 	public int result;
 	
-	private JTextField txtPlay1;
-	private JTextField txtPlay2;
 	
 	public SecondWindow() {
 		setPreferredSize(new Dimension(400, 400));
@@ -84,7 +84,7 @@ public class SecondWindow extends JDialog {
 		btnImage5.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		btnImage5.setBorderPainted(false);
 		btnImage1.setFocusable(false);
-		
+
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			
@@ -175,5 +175,6 @@ public class SecondWindow extends JDialog {
 				}
 			}
 		});
-	}	
+		
+	}
 }

@@ -31,6 +31,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.sun.scenario.Settings;
+
 /**
  * 
  * @author Invisible Man
@@ -101,6 +103,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private SecondWindow sndWindow = new SecondWindow();
 	int t =  sndWindow.ballNumber =0;
 	
+	
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		Startgame = new Sound(new File("Sound/StartGame.wav"));
@@ -124,6 +127,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				} else {
 					t=0;
 				}
+				
 			}
 		});
 		
@@ -178,6 +182,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			 */
 			int nextBallLeft = ballX + ballDeltaX;
 			int nextBallRight = ballX + diameter + ballDeltaX;
+			
 			// FIXME Something not quite right here
 			int nextBallTop = ballY+ ballDeltaY;
 			int nextBallBottom = ballY + diameter+ ballDeltaY;
@@ -199,6 +204,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				ballDeltaY *= -1;
 				SoundPG.play("Sound/paddleSound.wav");
 			}
+			
 			// different direction when the ball hit different position in the paddle
 						if(ballDeltaY ==3){
 							if (nextBallLeft <= playerOneTop +15 || nextBallLeft >= playerOneBottom -15){
