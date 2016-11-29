@@ -20,6 +20,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -52,13 +53,14 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private Color backgroundColor = Color.BLACK;
 	ImageIcon background1 = new ImageIcon("Background/blue sky.jpg");
 	ImageIcon background2 = new ImageIcon("Background/7024335-beautiful-sky-pictures-25030.jpg");
-	ImageIcon welcom = new ImageIcon("ImagesBall/Com.PNG");
+
 	ImageIcon backgroundBall2 = new ImageIcon("Background/backgroundBall2.png");
 	ImageIcon backgroundBall3 = new ImageIcon("Background/backgroundBall3.jpg");
 	ImageIcon backgroundBall4 = new ImageIcon("Background/backgroundBall4.jpg");
 	ImageIcon backgroundBall5 = new ImageIcon("Background/backgroundBall5.jpg");
 	ImageIcon backgroundNen = new ImageIcon("Background/backgroundNen.gif");
 	ImageIcon backgroundWin = new ImageIcon("Background/backgroundWin.gif");
+	ImageIcon welcom = new ImageIcon("ImagesBall/welcome4.PNG");
 
 	/** Paddle. */
 	ImageIcon paddle1 = new ImageIcon("Paddle/green.png");
@@ -108,12 +110,39 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon icoball4 = new ImageIcon("ImagesBall/ball4.png");
 	ImageIcon icoball5 = new ImageIcon("ImagesBall/ball5.png");
 	ImageIcon icoplay = new ImageIcon("ImagesBall/icon play.jpg");
+	
+	// Random Image
+	ImageIcon randImg1 = new ImageIcon("ImageExtra/plus.png");
+	ImageIcon randImg2 = new ImageIcon("ImageExtra/minus.png");
+	ImageIcon randImg3 = new ImageIcon("ImageExtra/RightArrow.png");
+	ImageIcon randImg4 = new ImageIcon("ImageExtra/LeftArrow.png");
+	
 	private JButton btnplay = new JButton(icoplay), btnwelcom = new JButton(welcom);
 	private SecondWindow sndWindow = new SecondWindow();
 	int t = sndWindow.ballNumber = 0;
 	private Setting_player sp = new Setting_player();
 	String s1, s2;
+	private int MainTime = 1000/60;
+	
+	// Random
+	private int TimePlus;	
+	private int TimeMinus;
+	private int TimeAR;	
+	private int TimeAL;
 
+	private boolean showRandomPlus;
+	private boolean showRandomMinus;
+	
+
+	private int xRandPlus;
+	private int yRandPlus;
+	private int xRandMinus;
+	private int yRandMinus;
+	private int LastHitBall;
+	
+	
+	
+	
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		Startgame = new Sound(new File("Sound/StartGame.wav"));
@@ -160,9 +189,14 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 		Startgame.play();
 		Startgame.playMusic();
-
+		
+		TimePlus = ThreadLocalRandom.current().nextInt(5, 15 + 1) * 1000;
+		TimeMinus = ThreadLocalRandom.current().nextInt(5, 15 + 1) * 1000;
+		TimeAR = ThreadLocalRandom.current().nextInt(20, 30 + 1) * 1000;
+		TimeAL = ThreadLocalRandom.current().nextInt(20, 30 + 1) * 1000;
+	
 		// call step() 60 fps
-		Timer timer = new Timer(1000 / 60, this);
+		Timer timer = new Timer(MainTime, this);
 		timer.start();
 	}
 
@@ -292,6 +326,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
 					ballDeltaX *= -1;
+					LastHitBall = 1;
 					SoundPG.play("Sound/paddleSound.wav");
 				}
 			}
@@ -319,6 +354,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
 					ballDeltaX *= -1;
+					LastHitBall = 2;
 					SoundPG.play("Sound/paddleSound.wav");
 				}
 			}
@@ -326,13 +362,85 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// move the ball
 			ballX += ballDeltaX;
 			ballY += ballDeltaY;
+		//------------------------------------------------------------	
+			TimePlus -= MainTime; // Random Plus
+			if (TimePlus < 0) {
+				if (showRandomPlus == false) {
+					showRandomPlus = true;
+					xRandPlus = ThreadLocalRandom.current().nextInt(50, 450 + 1);
+					yRandPlus = ThreadLocalRandom.current().nextInt(0, 470 + 1);
+				}else{
+					Point ballCenter = new Point(ballX+diameter/2, ballY+diameter/2);
+					Point ranCenter = new Point(xRandPlus+15, yRandPlus+15);
+					double distance = getPointDistance(ballCenter, ranCenter);
+					if(distance < diameter/2+15){
+						showRandomPlus = false;
+						TimePlus = ThreadLocalRandom.current().nextInt(5, 15 + 1) * 1000;
+						if(LastHitBall == 1){
+							if (playerOneHeight<100) {
+								playerOneHeight = playerOneHeight + (25*playerOneHeight)/100;
+							}else if(playerOneHeight>=100){
+								playerOneHeight=playerOneHeight;
+							}
+						}else if(LastHitBall == 2){
+							if(playerTwoHeight<100){
+							playerTwoHeight = playerTwoHeight + (25*playerTwoHeight)/100;
+							}else if (playerTwoHeight>=100) {
+								playerTwoHeight=playerTwoHeight;
+							}
+						}
+					}
+				}
+				if (TimePlus < -5000) {
+					showRandomMinus = false;
+					TimePlus = ThreadLocalRandom.current().nextInt(5, 15 + 1) * 1000;
+				}
+			}
+			
+			TimeMinus -= MainTime; // Random Minus
+			if (TimeMinus < 0) {
+				if (showRandomMinus == false) {
+					showRandomMinus = true;
+					xRandMinus = ThreadLocalRandom.current().nextInt(50, 450 + 1);
+					yRandMinus = ThreadLocalRandom.current().nextInt(0, 470 + 1);
+				}else{
+					Point ballCenter1 = new Point(ballX+diameter/2, ballY+diameter/2);
+					Point ranCenter1 = new Point(xRandMinus+15, yRandMinus+15);
+					double distance1 = getPointDistance(ballCenter1, ranCenter1);
+					if(distance1 < diameter/2+15){
+						showRandomMinus = false;
+						TimeMinus = ThreadLocalRandom.current().nextInt(5, 15 + 1) * 1000;
+						if(LastHitBall == 1){
+							if(playerOneHeight>30){
+							playerOneHeight = playerOneHeight - (25*playerOneHeight)/100;
+							}else if (playerOneHeight <=30) {
+								playerOneHeight=playerOneHeight;
+							}
+						}else if(LastHitBall == 2){
+							if(playerTwoHeight>30){
+							playerTwoHeight = playerTwoHeight - (25*playerTwoHeight)/100;
+							}else if (playerTwoHeight<=30) {
+								playerTwoHeight=playerTwoHeight;
+							}
+						}
+					}
+				}
+				if (TimeMinus < -10000) {
+					showRandomMinus = false;
+					TimeMinus = ThreadLocalRandom.current().nextInt(5, 15 + 1) * 1000;
+				}
+			}
+			
+    //---------------------------------------------------------------			
 		}
 
 		// stuff has moved, tell this JPanel to repaint itself
 		repaint();
-
 	}
-
+			
+	public double getPointDistance(Point p1, Point p2) {
+		return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+	}
 	/** Paint the game screen. */
 	public void paintComponent(Graphics g) {
 
@@ -341,7 +449,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		if (showTitleScreen) {
 
 			/* Show welcome screen */
-			btnwelcom.setBounds(20, 100, 450, 50);
+			btnwelcom.setBounds(10, 45, 480, 140);
 			btnwelcom.setContentAreaFilled(false);
 			btnwelcom.setBorderPainted(false);
 			// background
@@ -350,7 +458,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// Draw game title and start message
 
-			btnplay.setBounds(160, 180, 165, 70);
+			btnplay.setBounds(160, 180, 150, 70);
 			btnplay.setContentAreaFilled(false);
 			btnplay.setBorderPainted(false);
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.CENTER_BASELINE, 36));
@@ -406,7 +514,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// draw dashed line down center
 			g.setColor(Color.GREEN);
 			for (int lineY = 0; lineY < getHeight(); lineY += 50) {
-				g.drawLine(250, lineY, 250, lineY + 25);
+			g.drawLine(250, lineY, 250, lineY + 25);
 			}
 
 			// draw "goal lines" on each side
@@ -436,7 +544,16 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// draw the paddles
 			g.drawImage(paddle1.getImage(), playerOneX, playerOneY, playerOneWidth, playerOneHeight, null);
 			g.drawImage(paddle2.getImage(), playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight, null);
-
+			// draw minus and plus
+			if ( TimePlus < 0) {
+				if (showRandomPlus) {
+					g.drawImage(randImg1.getImage(), xRandPlus, yRandPlus, 30, 30, null);
+				}
+			}else if ( TimeMinus < 0) {
+				if (showRandomMinus) {
+					g.drawImage(randImg2.getImage(), xRandMinus, yRandMinus, 30, 30, null);
+				}
+			}
 		} else if (gameOver) {
 
 			/* Show End game screen with winner name and score */
@@ -447,10 +564,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// Draw scores
 			// TODO Set Blue color
-			g.setColor(Color.white);
+			
+			g.setColor(Color.red);
 			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 36));
-			g.drawString(String.valueOf(playerOneScore), 100, 120);
-			g.drawString(String.valueOf(playerTwoScore), 365, 120);
+			g.drawString(String.valueOf(playerOneScore), 100, 180);
+			g.drawString(String.valueOf(playerTwoScore), 365, 180);
 
 			// Draw the winner name
 			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 36));
@@ -458,28 +576,32 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			if (playerOneScore > playerTwoScore) {
 				if (s1 == null) {
-					g.drawString("Congratulations!", 90, 200);
+					
 					g.drawString("Player 1 win!", 125, 280);
+					g.drawString("Congratulations!", 90, 90);
 				} else {
-					g.drawString("Congratulations!", 90, 200);
+					
 					g.drawString(s1 + " " + "win!", 125, 280);
+					g.drawString("Congratulations!", 90, 90);
 				}
 
 			} else {
 				if (s2 == null) {
-					g.drawString("Congratulations!", 90, 200);
+					
 					g.drawString("Player 2 win!", 125, 280);
+					g.drawString("Congratulations!", 90, 90);
 				} else {
-					g.drawString("Congratulations!", 90, 200);
+					
 					g.drawString(s2 + " " + "win!", 125, 280);
+					g.drawString("Congratulations!", 90, 90);
 				}
 			}
 
 			// Draw Restart message
 			g.setColor(Color.black);
-			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 30));
+			g.setFont(new Font(Font.MONOSPACED, Font.CENTER_BASELINE, 20));
 			// TODO Draw a restart message
-			g.drawString("Press 'Space' to restart", 45, 360);
+			g.drawString("Press 'Space' to restart!", 120, 360);
 		}
 
 	}
