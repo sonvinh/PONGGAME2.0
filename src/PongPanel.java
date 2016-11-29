@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -52,6 +53,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon background1 = new ImageIcon("Background/blue sky.jpg");
 	ImageIcon background2 = new ImageIcon("Background/7024335-beautiful-sky-pictures-25030.jpg");
 	ImageIcon welcom = new ImageIcon("ImagesBall/Com.PNG");
+	ImageIcon backgroundBall2 = new ImageIcon("Background/backgroundBall2.png");
+	ImageIcon backgroundBall3 = new ImageIcon("Background/backgroundBall3.jpg");
+	ImageIcon backgroundBall4 = new ImageIcon("Background/backgroundBall4.jpg");
+	ImageIcon backgroundBall5 = new ImageIcon("Background/backgroundBall5.jpg");
+	ImageIcon backgroundNen = new ImageIcon("Background/backgroundNen.gif");
+	ImageIcon backgroundWin = new ImageIcon("Background/backgroundWin.gif");
 
 	/** Paddle. */
 	ImageIcon paddle1 = new ImageIcon("Paddle/green.png");
@@ -153,6 +160,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 		Startgame.play();
 		Startgame.playMusic();
+
 		// call step() 60 fps
 		Timer timer = new Timer(1000 / 60, this);
 		timer.start();
@@ -338,6 +346,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			btnwelcom.setBorderPainted(false);
 			// background
 			g.drawImage(background2.getImage(), 0, 0, getWidth(), getHeight(), null);
+			g.drawImage(backgroundNen.getImage(), 0, 0, getWidth(), getHeight(), null);
 
 			// Draw game title and start message
 
@@ -375,6 +384,25 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// background
 			g.drawImage(background1.getImage(), 0, 0, getWidth(), getHeight(), null);
 
+			// draw the ball1
+			if (t == 0) {
+				g.drawImage(icoball1.getImage(), ballX, ballY, diameter, diameter, null);
+			} else if (t == 1) {
+				g.drawImage(icoball1.getImage(), ballX, ballY, diameter, diameter, null);
+			} else if (t == 2) {
+				g.drawImage(backgroundBall2.getImage(), 0, 0, getWidth(), getHeight(), null);
+				g.drawImage(icoball2.getImage(), ballX, ballY, diameter, diameter, null);
+			} else if (t == 3) {
+				g.drawImage(backgroundBall3.getImage(), 0, 0, getWidth(), getHeight(), null);
+				g.drawImage(icoball3.getImage(), ballX, ballY, diameter, diameter, null);
+			} else if (t == 4) {
+				g.drawImage(backgroundBall4.getImage(), 0, 0, getWidth(), getHeight(), null);
+				g.drawImage(icoball4.getImage(), ballX, ballY, diameter, diameter, null);
+			} else if (t == 5) {
+				g.drawImage(backgroundBall5.getImage(), 0, 0, getWidth(), getHeight(), null);
+				g.drawImage(icoball5.getImage(), ballX, ballY, diameter, diameter, null);
+			}
+
 			// draw dashed line down center
 			g.setColor(Color.GREEN);
 			for (int lineY = 0; lineY < getHeight(); lineY += 50) {
@@ -405,21 +433,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString(String.valueOf(playerTwoScore), 352, 100); // Player 2
 																	// score
 
-			// draw the ball1
-			if (t == 0) {
-				g.drawImage(icoball1.getImage(), ballX, ballY, diameter, diameter, null);
-			} else if (t == 1) {
-				g.drawImage(icoball1.getImage(), ballX, ballY, diameter, diameter, null);
-			} else if (t == 2) {
-				g.drawImage(icoball2.getImage(), ballX, ballY, diameter, diameter, null);
-			} else if (t == 3) {
-				g.drawImage(icoball3.getImage(), ballX, ballY, diameter, diameter, null);
-			} else if (t == 4) {
-				g.drawImage(icoball4.getImage(), ballX, ballY, diameter, diameter, null);
-			} else if (t == 5) {
-				g.drawImage(icoball5.getImage(), ballX, ballY, diameter, diameter, null);
-			}
-
 			// draw the paddles
 			g.drawImage(paddle1.getImage(), playerOneX, playerOneY, playerOneWidth, playerOneHeight, null);
 			g.drawImage(paddle2.getImage(), playerTwoX, playerTwoY, playerTwoWidth, playerTwoHeight, null);
@@ -430,6 +443,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
 			// background
 			g.drawImage(background2.getImage(), 0, 0, getWidth(), getHeight(), null);
+			g.drawImage(backgroundWin.getImage(), 0, 0, getWidth(), getHeight(), null);
 
 			// Draw scores
 			// TODO Set Blue color

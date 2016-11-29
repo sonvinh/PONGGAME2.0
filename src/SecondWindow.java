@@ -28,7 +28,6 @@ public class SecondWindow extends JDialog {
 	private JTextField txtPlayer1;
 	private JTextField txtPlayer2;
 
-	
 	public SecondWindow() {
 		setPreferredSize(new Dimension(400, 400));
 		setTitle("Second Window");
@@ -40,6 +39,7 @@ public class SecondWindow extends JDialog {
 		pack();
 		setLayout(null);
 		inputPlayername();
+		
 		
 		JLabel lblChoose = new JLabel("Choose The Ball");
 		ImageIcon imageBall1 = new ImageIcon("ImagesBall/ball1.png");
@@ -217,7 +217,7 @@ public class SecondWindow extends JDialog {
 		lblPlayer_2.setFont(new Font("Player 2", Font.BOLD, 20));
 		getContentPane().add(lblPlayer_2);
 	}
-
+	
 	public Setting_player getSetting_player() {
 		Setting_player st = new Setting_player();
 		st.setPlayer1(txtPlayer1.getText());
