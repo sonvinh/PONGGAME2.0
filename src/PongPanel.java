@@ -60,7 +60,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon backgroundBall5 = new ImageIcon("Background/backgroundBall5.jpg");
 	ImageIcon backgroundNen = new ImageIcon("Background/backgroundNen.gif");
 	ImageIcon backgroundWin = new ImageIcon("Background/backgroundWin.gif");
-	ImageIcon welcom = new ImageIcon("ImagesBall/welcome4.PNG");
+	ImageIcon ponggame = new ImageIcon("ImagesBall/cooltext.png");
+	//ImageIcon welcom = new ImageIcon("ImagesBall/cooltext.PNG");
 
 	/** Paddle. */
 	ImageIcon paddle1 = new ImageIcon("Paddle/green.png");
@@ -117,7 +118,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	ImageIcon randImg3 = new ImageIcon("ImageExtra/RightArrow.png");
 	ImageIcon randImg4 = new ImageIcon("ImageExtra/LeftArrow.png");
 	
-	private JButton btnplay = new JButton(icoplay), btnwelcom = new JButton(welcom);
+	private JButton btnplay = new JButton(icoplay); //btnwelcom = new JButton(welcom);
 	private SecondWindow sndWindow = new SecondWindow();
 	int t = sndWindow.ballNumber = 0;
 	private Setting_player sp = new Setting_player();
@@ -152,7 +153,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		setBackground(backgroundColor);
 		add(btnplay);
 		add(btnSetting);
-		add(btnwelcom);
+		//add(btnwelcom);
 
 		btnplay.addActionListener(new ActionListener() {
 
@@ -449,12 +450,13 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		if (showTitleScreen) {
 
 			/* Show welcome screen */
-			btnwelcom.setBounds(10, 45, 480, 140);
-			btnwelcom.setContentAreaFilled(false);
-			btnwelcom.setBorderPainted(false);
+		//	btnwelcom.setBounds(10, 45, 400, 140);
+			//btnwelcom.setContentAreaFilled(false);
+			//btnwelcom.setBorderPainted(false);
 			// background
 			g.drawImage(background2.getImage(), 0, 0, getWidth(), getHeight(), null);
 			g.drawImage(backgroundNen.getImage(), 0, 0, getWidth(), getHeight(), null);
+			g.drawImage(ponggame.getImage(), 50, 50, 400, 140, null);
 
 			// Draw game title and start message
 
@@ -482,7 +484,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// Button Setting
 			btnSetting.setVisible(false);
 			btnplay.setVisible(false);
-			btnwelcom.setVisible(false);
+			//btnwelcom.setVisible(false);
 			/* Game is playing */
 
 			// set the coordinate limit
@@ -634,7 +636,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// Button Setting
 			btnSetting.setVisible(true);
 			btnplay.setVisible(true);
-			btnwelcom.setVisible(true);
+			//btnwelcom.setVisible(true);
 			Startgame.play();
 			Startgame.playMusic();
 			Overgame.stop();
