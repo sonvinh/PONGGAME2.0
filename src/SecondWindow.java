@@ -27,11 +27,13 @@ public class SecondWindow extends JDialog {
 
 	private JTextField txtPlayer1;
 	private JTextField txtPlayer2;
+	private Color backgroundSet = Color.LIGHT_GRAY;
 
 	public SecondWindow() {
 		setPreferredSize(new Dimension(400, 400));
-		setTitle("Second Window");
+		setTitle("Setting");
 		getContentPane().setLayout(null);
+		this.getContentPane().setBackground(backgroundSet);
 		setModal(true);
 		
 
